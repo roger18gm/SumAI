@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pop Up Extension</title>
+    <link rel="stylesheet" crossorigin href="style.css" />
+  </head>
+  <body>
+    <div class="bg-neutral-200 w-80 h-96 flex flex-col p-4 gap-4">
+      <div
+        class="absolute top-0 left-0 w-full p-2 bg-white flex justify-between gap-2"
+      >
+        <h1 class="italic font-bold">Sum It Up AI Bot</h1>
+      </div>
+
+      <div id="chatBox" class="flex flex-col gap-1"></div>
+
+      <div
+        class="absolute bottom-0 left-0 w-full p-2 bg-white flex items-center gap-2"
+      >
+        <input
+          type="text"
+          id="prompt"
+          name="prompt"
+          placeholder="Summarize this webpage for me..."
+          class="rounded p-2 border outline-black focus:outline-none flex-1 placeholder:italic"
+        />
+        <button
+          type="submit"
+          class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-all ease-in-out active:scale-95"
+          id="submitBtn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

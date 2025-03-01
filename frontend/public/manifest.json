@@ -1,0 +1,24 @@
+{
+    "name": "Sum It Up AI Bot",
+    "description": "first extension attempt",
+    "version": "1.0.0",
+    "manifest_version" : 3,
+    "background": {
+        "service-worker": "background.js",
+        "type": "module" 
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_width": 400,
+        "default_height": 600
+    },
+    "permissions": [   "activeTab",
+    "tabs",
+"storage"],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*",
+        "http://localhost:5000/*"
+    ]
+
+}
