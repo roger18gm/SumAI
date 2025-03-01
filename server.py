@@ -22,6 +22,7 @@ def create_thread():
     try:
         data = request.json
         website_url = data.get('website_url')
+        existing_thread_id = data.get('thread_id')  # Check if client sent a thread_id
         
         if not website_url:
             return jsonify({"error": "Missing website_url parameter"}), 400
@@ -29,12 +30,23 @@ def create_thread():
         # Run the async function in the Flask context
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        result = loop.run_until_complete(assistant.create_or_update_thread(website_url))
+        
+        # If we have an existing thread ID, use it
+        if existing_thread_id:
+            logging.info(f"Updating existing thread {existing_thread_id} with new URL {website_url}")
+            # Set the active thread ID before updating
+            assistant.active_thread_id = existing_thread_id
+            result = loop.run_until_complete(assistant._update_thread_context(existing_thread_id, website_url))
+        else:
+            logging.info(f"Creating new thread for URL {website_url}")
+            result = loop.run_until_complete(assistant.create_or_update_thread(website_url))
+        
         loop.close()
         
         if "error" in result:
             return jsonify({"error": result["error"]}), 500
-            
+        
+        # Return the thread ID (either the new one or the existing one we updated)
         return jsonify({"thread_id": result["thread_id"]})
     
     except Exception as e:
@@ -53,6 +65,10 @@ def chat():
             return jsonify({"error": "Missing thread_id parameter"}), 400
         if not message:
             return jsonify({"error": "Missing message parameter"}), 400
+        
+        # Check if thread exists
+        if thread_id not in assistant.threads:
+            return jsonify({"error": f"Thread {thread_id} not found"}), 404
         
         # Get response without streaming
         response = assistant.chat(thread_id, message)
@@ -75,6 +91,10 @@ def chat_stream():
             return jsonify({"error": "Missing thread_id parameter"}), 400
         if not message:
             return jsonify({"error": "Missing message parameter"}), 400
+        
+        # Check if thread exists
+        if thread_id not in assistant.threads:
+            return jsonify({"error": f"Thread {thread_id} not found"}), 404
         
         # Create a queue to communicate between threads
         token_queue = queue.Queue()
@@ -110,6 +130,16 @@ def chat_stream():
     
     except Exception as e:
         logging.error(f"Error in chat_stream: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/get_active_thread', methods=['GET'])
+def get_active_thread():
+    """Get the currently active thread ID"""
+    try:
+        active_thread_id = assistant.get_active_thread_id()
+        return jsonify({"thread_id": active_thread_id})
+    except Exception as e:
+        logging.error(f"Error getting active thread: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
