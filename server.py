@@ -6,20 +6,12 @@ import json
 import queue
 import threading
 from open_ai_modules import ChromeExtensionAssistant
-import boto3
-from openai import OpenAI
+
 
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Fetch the key once at startup
-secrets_client = boto3.client("secretsmanager")
-secret = secrets_client.get_secret_value(SecretId="prod/openai_api_key")
-openai_api_key = secret["SecretString"]
-
-# Initialize OpenAI client
-client = OpenAI(api_key=openai_api_key)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
