@@ -3,7 +3,6 @@ import { resolve } from "path";
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  // root: "src/",
   plugins: [
     tailwindcss()
   ],
@@ -11,7 +10,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         popup: resolve(__dirname, "popup.html"),
-        // options: resolve(__dirname, "options.html"),
+        permission: resolve(__dirname, "permission.html"),
       },
       output: {
         entryFileNames: "[name].js",

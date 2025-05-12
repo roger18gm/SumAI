@@ -14,3 +14,6 @@ npm run build
 ```
 Upload dist folder to Chrome Extension site
 ```
+
+
+https://medium.com/@lynchee.owo/how-to-enable-microphone-access-in-chrome-extensions-by-code-924295170080

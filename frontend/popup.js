@@ -3,8 +3,24 @@ let currentThreadId = null;
 let currentWebsiteUrl = null;
 let recognition;
 
+function injectMicrophonePermissionIframe() {
+  const iframe = document.createElement("iframe");
+  iframe.setAttribute("hidden", "hidden");
+  iframe.setAttribute("id", "permissionsIFrame");
+  iframe.setAttribute("allow", "microphone");
+  iframe.src = chrome.runtime.getURL("permission.html"); // Correct path
+  document.body.appendChild(iframe);
+}
+
+// document.addEventListener('DOMContentLoaded', function() {
+injectMicrophonePermissionIframe();
+// });
+
 // Initialize when the popup opens
 document.addEventListener('DOMContentLoaded', async () => {
+
+  // injectMicrophonePermissionIframe();
+
     try {
         // Get current tab URL
         const tabs = await chrome.tabs.query({ active: true, currentWindow: true });

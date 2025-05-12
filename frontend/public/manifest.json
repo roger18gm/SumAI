@@ -1,32 +1,24 @@
 {
-    "name": "Sum It Up AI Bot",
-    "description": "first extension attempt",
-    "version": "1.0.0",
-    "manifest_version" : 3,
-    "background": {
-        "service-worker": "background.js",
-        "type": "module",
-        "persistent": true
-    },
-    "action": {
-        "default_popup": "popup.html",
-        "default_width": 400,
-        "default_height": 1000
-    },
-    "permissions": ["activeTab",
-    "tabs","storage"],
-    "host_permissions": [
-        "http://*/*",
-        "https://*/*",
-        "http://localhost:5000/*",
-        "http://127.0.0.1:5000",
-        "<all_urls>"
-    ],
-    "web_accessible_resources": [
-    {
-      "resources": ["popup.html"],
-      "matches": ["<all_urls>"]
-    }
+  "name": "Sum It Up AI Bot V2",
+  "description": "Summarizes your current page for efficient browsing",
+  "version": "1.0.0",
+  "manifest_version" : 3,
+  "background": {
+      "service-worker": "background.js",
+      "type": "module"
+  },
+  "action": {
+      "default_popup": "popup.html"
+  },
+  "permissions": ["activeTab", "tabs", "storage"],
+  "host_permissions": [
+      "http://*/*",
+      "https://*/*"
   ],
-"optional_permissions": ["audioCapture"]
+  "web_accessible_resources": [
+  {
+    "resources": ["popup.html","pages/permission.html", "pages/requestPermission.js"],
+    "matches": ["<all_urls>"]
+  }
+]
 }
